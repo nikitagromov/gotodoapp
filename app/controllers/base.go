@@ -10,7 +10,7 @@ import (
 
 
 
-func GetItemsCollectionQuery(c url.Values) *gorm.DB {
+func getItemsCollectionQuery(c url.Values) *gorm.DB {
 
 	query := app.Database
 	query.LogMode(true)

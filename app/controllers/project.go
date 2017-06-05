@@ -32,7 +32,7 @@ func (c ProjectController) GetParams(param string) string {
 
 func (c ProjectController) GetProjectsCollectionView() revel.Result {
 	projects := []models.Project{}
-	query := GetItemsCollectionQuery(c.Params.Query)
+	query := getItemsCollectionQuery(c.Params.Query)
 	query = processQParam(c.Params.Query, query)
 	query.Find(&projects)
 	return c.RenderJSON(projects)

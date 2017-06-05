@@ -30,7 +30,7 @@ func (c TaskController)  GetBody() ([]byte, error) {
 
 func (c TaskController) GetTasksCollectionView() revel.Result {
 	tasks := []models.Task{}
-	query := GetItemsCollectionQuery(c.Params.Query)
+	query := getItemsCollectionQuery(c.Params.Query)
 	query = addProjectId(c.Params.Query, query)
 	query = processQParam(c.Params.Query, query)
 	query.Find(&tasks)

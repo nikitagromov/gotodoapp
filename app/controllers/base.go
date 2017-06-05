@@ -6,6 +6,8 @@ import (
 	"github.com/jinzhu/gorm"
 	"net/url"
 	"strings"
+	"io/ioutil"
+	"github.com/revel/revel"
 )
 
 
@@ -53,3 +55,8 @@ func processQParam(c url.Values, query *gorm.DB) *gorm.DB{
 	return query
 
 }
+
+func getBody(r *revel.Request) ([]byte, error) {
+	return ioutil.ReadAll(r.Body)
+}
+

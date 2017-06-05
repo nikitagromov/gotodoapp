@@ -4,7 +4,6 @@ import (
 	"todoapp/app"
 	"todoapp/app/models"
 	"github.com/revel/revel"
-	"io/ioutil"
 	"encoding/json"
 	"fmt"
 	"net/url"
@@ -21,11 +20,6 @@ type (TaskController struct {
 	*revel.Controller
 
 })
-
-func (c TaskController)  GetBody() ([]byte, error) {
-	return ioutil.ReadAll(c.Request.Body)
-}
-
 
 
 func (c TaskController) GetTasksCollectionView() revel.Result {
@@ -46,7 +40,7 @@ func (c TaskController) GetTaskById() revel.Result {
 
 func (c TaskController) AddTask() revel.Result {
 	var payload TaskJSON
-	data, _ := c.GetBody()
+	data, _ := getBody(c.Request)
 	json.Unmarshal(data, &payload)
 	task := models.Task{Name: payload.Name, ProjectID: payload.ProjectID}
 	app.Database.Debug().Create(&task)

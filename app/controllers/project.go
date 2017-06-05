@@ -4,7 +4,6 @@ import (
 	"todoapp/app"
 	"todoapp/app/models"
 	"github.com/revel/revel"
-	"io/ioutil"
 	"encoding/json"
 )
 
@@ -16,19 +15,6 @@ type ProjectJSON struct {
 type (ProjectController struct {
 	*revel.Controller
 })
-
-func (c ProjectController)  GetBody() ([]byte, error) {
-	return ioutil.ReadAll(c.Request.Body)
-}
-
-func (c ProjectController) GetQueryParams(param string) string {
-	return c.Params.Query.Get(param)
-}
-
-func (c ProjectController) GetParams(param string) string {
-	return c.Params.Get(param)
-}
-
 
 func (c ProjectController) GetProjectsCollectionView() revel.Result {
 	projects := []models.Project{}
@@ -46,7 +32,7 @@ func (c ProjectController) GetProjectById() revel.Result {
 
 func (c ProjectController) AddProject() revel.Result {
 	var payload ProjectJSON
-	data, _ := c.GetBody()
+	data, _ := getBody(c.Request)
 	json.Unmarshal(data, &payload)
 	project := models.Project{Name: payload.Name}
 	app.Database.Debug().Create(&project)

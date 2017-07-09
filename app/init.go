@@ -2,9 +2,6 @@ package app
 
 import (
 	"github.com/revel/revel"
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
-	"fmt"
 	"gopkg.in/olivere/elastic.v3"
 	"todoapp/app/models"
 )
@@ -15,7 +12,6 @@ var (
 
 	// BuildTime revel app build-time (ldflags)
 	BuildTime string
-	Database *gorm.DB
 	ES *elastic.Client
 )
 
@@ -43,7 +39,7 @@ func init() {
 	// ( order dependent )
 	// revel.OnAppStart(ExampleStartupScript)
 	revel.OnAppStart(func() {
-		Database = InitDB()
+		models.InitDB()
 	})
 	//defer Database.Close()
 
@@ -52,28 +48,6 @@ func init() {
 
 
 
-func InitDB () *gorm.DB  {
-	fmt.Println("application started")
-
-	Database, err := gorm.Open("postgres", "host=localhost user=nikitagromov dbname=gorm sslmode=disable password=")
-	if err != nil {
-		panic("failed to connect database")
-	}
-
-	Database.DB().Ping()
-	//Database.CreateTable(&models.Task{})
-	Database.AutoMigrate(&models.Task{})
-	Database.AutoMigrate(&models.Project{})
-	return Database
-}
-
-func InitES() *elastic.Client {
-	client, err := elastic.NewClient()
-	if err != nil {
-		panic("failed to connect elasticsearch")
-	}
-	return client
-}
 
 
 

@@ -1,20 +1,21 @@
 package controllers
 
 import (
-	"todoapp/app"
 	"strconv"
 	"github.com/jinzhu/gorm"
 	"net/url"
 	"strings"
 	"io/ioutil"
 	"github.com/revel/revel"
+	"todoapp/app/models"
+	"fmt"
 )
 
 
 
 func getItemsCollectionQuery(c url.Values) *gorm.DB {
-
-	query := app.Database
+	fmt.Println(models.Database)
+	query := models.Database
 	query.LogMode(true)
 	_limit, limit_error := strconv.Atoi(c.Get("_limit"))
 	_offset, offset_error := strconv.Atoi(c.Get("_offset"))

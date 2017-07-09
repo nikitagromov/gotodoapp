@@ -6,4 +6,5 @@ type Task struct {
 	gorm.Model
 	Name string
 	ProjectID uint
+	OwnerID string `gorm:"ForeignKey:UserRefer"`
 }

@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"todoapp/app"
 	"todoapp/app/models"
 	"github.com/revel/revel"
 	"encoding/json"
@@ -33,7 +32,7 @@ func (c TaskController) GetTasksCollectionView() revel.Result {
 
 func (c TaskController) GetTaskById() revel.Result {
 	task := models.Task{}
-	app.Database.Debug().Where("id = ?", c.Params.Get("id")).First(&task)
+	models.Database.Debug().Where("id = ?", c.Params.Get("id")).First(&task)
 	fmt.Println(task)
 	return c.RenderJSON(task)
 }
@@ -43,15 +42,15 @@ func (c TaskController) AddTask() revel.Result {
 	data, _ := getBody(c.Request)
 	json.Unmarshal(data, &payload)
 	task := models.Task{Name: payload.Name, ProjectID: payload.ProjectID}
-	app.Database.Debug().Create(&task)
+	models.Database.Debug().Create(&task)
 	return c.RenderJSON(task)
 }
 
 func addProjectId(c url.Values, db *gorm.DB)  *gorm.DB {
-	projectId, error := strconv.Atoi(c.Get("project_id"))
+	projectId, err := strconv.Atoi(c.Get("project_id"))
 	query := db
 
-	if error == nil {
+	if err == nil {
 		query = query.Where("project_id = ?", projectId)
 	}
 

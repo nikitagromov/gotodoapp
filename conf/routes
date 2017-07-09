@@ -12,9 +12,13 @@ GET     /api/tasks                                   TaskController.GetTasksColl
 GET     /api/tasks/:id                               TaskController.GetTaskById
 POST    /api/tasks                                   TaskController.AddTask
 
-GET     /api/projects                                 ProjectController.GetProjectsCollectionView
-GET     /api/projects/:id                             ProjectController.GetProjectById
-POST    /api/projects                                 ProjectController.AddProject
+GET     /api/projects                                ProjectController.GetProjectsCollectionView
+GET     /api/projects/:id                            ProjectController.GetProjectById
+POST    /api/projects                                ProjectController.AddProject
+
+GET     /api/users                                   UserController.GetUsers
+POST    /api/users                                   UserController.AddUser
+GET     /api/users/:email                            UserController.GetUserByEmail
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

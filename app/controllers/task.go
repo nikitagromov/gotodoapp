@@ -24,7 +24,7 @@ type (TaskController struct {
 func (c TaskController) GetTasksCollectionView() revel.Result {
 	tasks := []models.Task{}
 	query := getItemsCollectionQuery(c.Params.Query)
-	query = addProjectId(c.Params.Query, query)
+	query = filterByProjectId(c.Params.Query, query)
 	query = processQParam(c.Params.Query, query)
 	query.Find(&tasks)
 	return c.RenderJSON(tasks)
@@ -46,7 +46,7 @@ func (c TaskController) AddTask() revel.Result {
 	return c.RenderJSON(task)
 }
 
-func addProjectId(c url.Values, db *gorm.DB)  *gorm.DB {
+func filterByProjectId(c url.Values, db *gorm.DB)  *gorm.DB {
 	projectId, err := strconv.Atoi(c.Get("project_id"))
 	query := db
 

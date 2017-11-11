@@ -27,20 +27,16 @@ func handlerWrapper(handler func(model *models.Model), ch chan *models.Model) {
 }
 
 func (eventBus *EventBus) Dispatch(eventName string, model models.Model) {
-
 	if eventBus.channels[eventName] != nil {
-		fmt.Println(eventName)
-		channel := eventBus.channels[eventName]
-		channel <- &model
+		eventBus.channels[eventName] <- &model
 	}
 }
 
 
 func (eventBus *EventBus) Init () {
-	events := [] string {TASK_CREATED, PROJECT_CREATED}
 	eventBus.channels = make(map[string]chan *models.Model)
 
-	for _, event := range events {
+	for _, event := range []string {TASK_CREATED, PROJECT_CREATED} {
 		eventBus.channels[event] = make(chan *models.Model)
 	}
 

@@ -42,7 +42,7 @@ func init() {
 	// revel.OnAppStart(ExampleStartupScript)
 	revel.OnAppStart(func() {
 		models.InitDB()
-		EventBus = &services.EventBus{Handlers: make(map[string]func(model *models.Model))}
+		EventBus = &services.EventBus{}
 		EventBus.Init()
 
 		EventBus.AddHandler(services.TASK_CREATED, services.DispatchNotification)

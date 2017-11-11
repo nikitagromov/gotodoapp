@@ -60,4 +60,3 @@ func processQParam(c url.Values, query *gorm.DB) *gorm.DB{
 func getBody(r *revel.Request) ([]byte, error) {
 	return ioutil.ReadAll(r.Body)
 }
-

@@ -8,6 +8,10 @@ import (
 
 var Database *gorm.DB
 
+type Model interface {
+	GetData() (map[string]interface{})
+}
+
 func InitDB () {
 	fmt.Println("application started")
 	var err error

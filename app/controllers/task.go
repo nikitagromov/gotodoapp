@@ -8,6 +8,8 @@ import (
 	"net/url"
 	"github.com/jinzhu/gorm"
 	"strconv"
+	"todoapp/app"
+	"todoapp/app/services"
 )
 
 type TaskJSON struct {
@@ -43,7 +45,9 @@ func (c TaskController) AddTask() revel.Result {
 	json.Unmarshal(data, &payload)
 	task := models.Task{Name: payload.Name, ProjectID: payload.ProjectID}
 	models.Database.Debug().Create(&task)
+	app.EventBus.Dispatch(services.TASK_CREATED, task)
 	return c.RenderJSON(task)
+
 }
 
 func filterByProjectId(c url.Values, db *gorm.DB)  *gorm.DB {

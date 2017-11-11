@@ -4,6 +4,7 @@ import (
 	"github.com/revel/revel"
 	"gopkg.in/olivere/elastic.v3"
 	"todoapp/app/models"
+	"todoapp/app/services"
 )
 
 var (
@@ -13,6 +14,7 @@ var (
 	// BuildTime revel app build-time (ldflags)
 	BuildTime string
 	ES *elastic.Client
+	EventBus *services.EventBus
 )
 
 
@@ -40,11 +42,16 @@ func init() {
 	// revel.OnAppStart(ExampleStartupScript)
 	revel.OnAppStart(func() {
 		models.InitDB()
+		EventBus = &services.EventBus{Handlers: make(map[string]func(model *models.Model))}
+		EventBus.AddHandler(services.TASK_CREATED, services.DispatchNotification)
+		EventBus.AddHandler(services.PROJECT_CREATED, services.DispatchNotification)
 	})
 	//defer Database.Close()
 
 	// revel.OnAppStart(FillCache)
 }
+
+
 
 
 

@@ -26,7 +26,6 @@ type (UserController struct {
 func (c UserController) GetUsers() revel.Result {
 	users := []models.User{}
 	query := getItemsCollectionQuery(c.Params.Query)
-	query = addProjectId(c.Params.Query, query)
 	query = processQParam(c.Params.Query, query)
 	query.Find(&users)
 	filteredUsers := []FilteredUserJSON{}

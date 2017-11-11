@@ -4,6 +4,8 @@ import (
 	"todoapp/app/models"
 	"github.com/revel/revel"
 	"encoding/json"
+	"todoapp/app"
+	"todoapp/app/services"
 )
 
 type ProjectJSON struct {
@@ -36,6 +38,7 @@ func (c ProjectController) AddProject() revel.Result {
 	json.Unmarshal(data, &payload)
 	project := models.Project{Name: payload.Name}
 	models.Database.Debug().Create(&project)
+	app.EventBus.Dispatch(services.PROJECT_CREATED, project)
 	return c.RenderJSON(project)
 }
 

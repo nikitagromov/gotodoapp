@@ -2,7 +2,6 @@ package services
 
 import (
 	"todoapp/app/models"
-	"fmt"
 )
 
 type EventBus struct {
@@ -15,13 +14,13 @@ const PROJECT_CREATED  = "project_created"
 
 func (eventBus *EventBus) AddHandler(eventName string, handler func(model *models.Model)) {
 	channel := eventBus.channels[eventName]
-	go handlerWrapper(handler, channel)
+	go handlerWrapper(handler, &channel)
 }
 
 
-func handlerWrapper(handler func(model *models.Model), ch chan *models.Model) {
+func handlerWrapper(handler func(model *models.Model), ch *chan *models.Model) {
 	for {
-		model := <- ch
+		model := <- *ch
 		handler(model)
 	}
 }

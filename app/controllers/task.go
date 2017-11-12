@@ -45,7 +45,7 @@ func (c TaskController) AddTask() revel.Result {
 	json.Unmarshal(data, &payload)
 	task := models.Task{Name: payload.Name, ProjectID: payload.ProjectID}
 	models.Database.Debug().Create(&task)
-	app.EventBus.Dispatch(services.TASK_CREATED, task)
+	app.EventBus.Dispatch(services.TASK_CREATED, &task)
 	return c.RenderJSON(task)
 
 }

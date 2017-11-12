@@ -21,7 +21,7 @@ func (eventBus *EventBus) AddHandler(eventName string, handler func(model *model
 func handlerWrapper(handler func(model *models.Model), ch *chan *models.Model) {
 	for {
 		model := <- *ch
-		handler(model)
+		go handler(model)
 	}
 }
 

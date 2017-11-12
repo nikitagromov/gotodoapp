@@ -38,7 +38,7 @@ func (c ProjectController) AddProject() revel.Result {
 	json.Unmarshal(data, &payload)
 	project := models.Project{Name: payload.Name}
 	models.Database.Debug().Create(&project)
-	app.EventBus.Dispatch(services.PROJECT_CREATED, project)
+	app.EventBus.Dispatch(services.PROJECT_CREATED, &project)
 	return c.RenderJSON(project)
 }
 

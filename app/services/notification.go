@@ -3,6 +3,7 @@ package services
 import (
 	"fmt"
 	"todoapp/app/models"
+	"time"
 )
 
 type Message struct {
@@ -27,5 +28,7 @@ func DispatchNotification(model *models.Model) {
 	item := *model
 	sender := MockSender{}
 	data := item.GetData()
+	fmt.Println("blocked")
+	time.Sleep(10 * time.Second)
 	sender.Send(Message{"None", data})
 }

@@ -14,11 +14,11 @@ const PROJECT_CREATED  = "project_created"
 
 func (eventBus *EventBus) AddHandler(eventName string, handler func(model *models.Model)) {
 	channel := eventBus.channels[eventName]
-	go handlerWrapper(handler, &channel)
+	go receiver(handler, &channel)
 }
 
 
-func handlerWrapper(handler func(model *models.Model), ch *chan *models.Model) {
+func receiver(handler func(model *models.Model), ch *chan *models.Model) {
 	for {
 		model := <- *ch
 		go handler(model)

@@ -1,6 +1,9 @@
 package models
 
-import "github.com/jinzhu/gorm"
+import (
+	"github.com/jinzhu/gorm"
+	"fmt"
+)
 
 type Project struct {
 	gorm.Model
@@ -16,4 +19,11 @@ func (project Project) GetData () map[string]interface{} {
 	data["tasks"] = project.Tasks
 	data["owner_id"] = project.OwnerID
 	return data
+}
+
+
+func CreateProject(name string, ownerId string) (project *Project) {
+	project = &Project{Name:name,  OwnerID:ownerId}
+	Database.Debug().Create(project)
+	return
 }

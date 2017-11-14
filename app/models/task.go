@@ -19,3 +19,9 @@ func (task Task) GetData () map[string]interface{} {
 	data["owner_id"] = task.OwnerID
 	return data
 }
+
+func CreateTask(name string, projectId uint, ownerId string) (task *Task) {
+	task = &Task{Name:name, ProjectID:projectId, OwnerID:ownerId}
+	Database.Debug().Create(task)
+	return
+}

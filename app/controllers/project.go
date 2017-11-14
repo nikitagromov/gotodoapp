@@ -11,6 +11,7 @@ import (
 type ProjectJSON struct {
 	Name string `json:"name"`
 	Tasks []uint `json:"tasks"`
+	OwnerID string `json:"ownerID"`
 }
 
 type (ProjectController struct {
@@ -36,9 +37,8 @@ func (c ProjectController) AddProject() revel.Result {
 	var payload ProjectJSON
 	data, _ := getBody(c.Request)
 	json.Unmarshal(data, &payload)
-	project := models.Project{Name: payload.Name}
-	models.Database.Debug().Create(&project)
-	app.EventBus.Dispatch(services.PROJECT_CREATED, &project)
+	project := models.CreateProject(payload.Name, payload.OwnerID)
+	app.EventBus.Dispatch(services.PROJECT_CREATED, project)
 	return c.RenderJSON(project)
 }
 

@@ -15,6 +15,7 @@ import (
 type TaskJSON struct {
 	Name string `json:"name"`
 	ProjectID uint `json:"projectID"`
+	OwnerID string `json:"ownerID"`
 }
 
 type (TaskController struct {
@@ -43,9 +44,8 @@ func (c TaskController) AddTask() revel.Result {
 	var payload TaskJSON
 	data, _ := getBody(c.Request)
 	json.Unmarshal(data, &payload)
-	task := models.Task{Name: payload.Name, ProjectID: payload.ProjectID}
-	models.Database.Debug().Create(&task)
-	app.EventBus.Dispatch(services.TASK_CREATED, &task)
+	task := models.CreateTask(payload.Name, payload.ProjectID, payload.OwnerID)
+	app.EventBus.Dispatch(services.TASK_CREATED, task)
 	return c.RenderJSON(task)
 
 }

@@ -19,7 +19,7 @@ type NotificationSender interface {
 
 type MockSender struct {}
 
-func (sender *MockSender) Send(msg Message) {
+func (sn *MockSender) Send(msg Message) {
 	fmt.Println("MOCK NOTIFICATION")
 }
 

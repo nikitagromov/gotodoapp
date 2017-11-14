@@ -48,7 +48,6 @@ func init() {
 		EventBus.AddHandler(services.TASK_CREATED, services.DispatchNotification)
 		EventBus.AddHandler(services.PROJECT_CREATED, services.DispatchNotification)
 	})
-	//defer Database.Close()
 
 	// revel.OnAppStart(FillCache)
 }
